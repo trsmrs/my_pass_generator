@@ -41,43 +41,25 @@ class MainActivity : AppCompatActivity() {
         val chk_num: CheckBox = findViewById(R.id.chk_num)
         val chk_symbols: CheckBox = findViewById(R.id.chk_symbols)
 
-
-
-
         fun generatePass() {
             buttonActivated = chk_num.isChecked
             buttonSymbols = chk_symbols.isChecked
 
             passwordLength = txt_lenth.text.toString().toInt()
 
-            if(buttonActivated && buttonSymbols ) {
-                selectedChars = chars + chars2 + chars3
+            selectedChars = when {
+                buttonActivated && buttonSymbols -> chars + chars2 + chars3
+                buttonActivated -> chars + chars2
+                buttonSymbols -> chars + chars3
+                else -> chars
             }
-            else if(buttonActivated){
-                selectedChars = chars + chars2
-            }
-            else if(buttonSymbols){
-                selectedChars = chars + chars3
-            }
-
-            else{
-                selectedChars = chars
-            }
-
             for (i in 0 until passwordLength) {
                 val randomIndex = (Math.random() * selectedChars.length).toInt()
                 password += selectedChars.substring(randomIndex, randomIndex + 1)
-
             }
             result_text.setText(password)
             password = ""
-
         }
-
-
-
-
-
 
         btn.setOnClickListener {
             if(txt_lenth.text.isEmpty()){
@@ -89,7 +71,6 @@ class MainActivity : AppCompatActivity() {
             else{
                 generatePass()
             }
-
         }
         btnCopy.setOnClickListener {
             val textToCopy = result_text.text.toString()
