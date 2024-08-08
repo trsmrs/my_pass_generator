@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="29dp"
+        android:layout_centerHorizontal="true"
+        android:text="Gerador de Senha Forte"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textAlignment="center"
+        android:layout_marginTop="30dp"
+        />
+
+    <EditText
+        android:id="@+id/text_pass"
+        android:layout_width="350dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="160dp"
+        android:background="@drawable/rectangle"
+        android:ems="10"
+        android:inputType="text"
+        android:text=""
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/black"
+        />
+
+    <Button
+        android:id="@+id/btn_copy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Copiar"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/btns"
+        android:layout_below="@+id/text_pass"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
+       />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="260dp"
+        android:layout_height="25dp"
+        android:orientation="vertical"
+        android:text="Digite o comprimento da senha"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:layout_below="@+id/btn_copy"
+        android:layout_marginTop="30dp"
+        android:layout_centerInParent="true"
+        />
+
+    <EditText
+        android:id="@+id/text_lenght"
+        android:layout_width="78dp"
+        android:layout_height="51dp"
+        android:background="@drawable/rectangle"
+        android:ems="10"
+        android:inputType="number"
+        android:text="10"
+        android:textAlignment="center"
+        android:layout_below="@+id/textView"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/black"/>
+
+    <CheckBox
+        android:id="@+id/chk_num"
+        android:layout_width="101dp"
+        android:layout_height="53dp"
+        android:text="Números"
+        android:textColor="@color/white"
+        android:layout_below="@+id/text_lenght"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
+        android:layout_toLeftOf="@+id/text_lenght"
+        />
+
+    <CheckBox
+        android:id="@+id/chk_symbols"
+        android:layout_width="101dp"
+        android:layout_height="53dp"
+        android:text="Símbolos"
+        android:textColor="@color/white"
+        android:layout_below="@+id/text_lenght"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@+id/text_lenght"
+         />
+
+    <Button
+        android:id="@+id/btn_generate"
+        android:layout_width="288dp"
+        android:layout_height="46dp"
+        android:text="Gerar Password"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/btns"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="70dp"
+        />
+
+
+
+</RelativeLayout>
