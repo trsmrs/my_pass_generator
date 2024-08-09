@@ -106,7 +106,18 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="70dp"
         />
-
+    <Button
+        android:id="@+id/addBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:text="Senhas"
+        app:tint ="@color/white"
+        android:backgroundTint="@color/orange"
+        />
 
 
 </RelativeLayout>

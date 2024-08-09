@@ -3,7 +3,7 @@ package com.example.passwordgenerator
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.icu.text.NumberFormat
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
@@ -13,21 +13,28 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.passwordgenerator.databinding.ActivityMainBinding
+import com.example.passwordgenerator.databinding.ActivityVaultBinding
 
 class MainActivity : AppCompatActivity() {
-    var passwordLength = 99
-    val chars = "abcdefghjklmnpABCDEFGHJKLMNPQRSTUVXWYZqrstuvxwyz"
-    val chars2 = "123456789012345678901234567890123456789012345678"
-    val chars3 = "?!@&*()[]%$#?!@&*()[]%$#?!@&*()[]%$#?!@&*()[]%$#"
-    var password = ""
-    var buttonActivated = false
-    var buttonSymbols = false
-    var selectedChars = ""
+    private lateinit var binding: ActivityMainBinding
+
+    private var passwordLength = 99
+    private val chars = "abcdefghjklmnpABCDEFGHJKLMNPQRSTUVXWYZqrstuvxwyz"
+    private val chars2 = "123456789012345678901234567890123456789012345678"
+    private val chars3 = "?!@&*()[]%$#?!@&*()[]%$#?!@&*()[]%$#?!@&*()[]%$#"
+    private var password = ""
+    private var buttonActivated = false
+    private var buttonSymbols = false
+    private var selectedChars = ""
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -40,6 +47,13 @@ class MainActivity : AppCompatActivity() {
 
         val chk_num: CheckBox = findViewById(R.id.chk_num)
         val chk_symbols: CheckBox = findViewById(R.id.chk_symbols)
+
+
+        binding.addBtn.setOnClickListener {
+            val intent = Intent(this, VaultActivity::class.java)
+            startActivity(intent)
+
+        }
 
         fun generatePass() {
             buttonActivated = chk_num.isChecked
