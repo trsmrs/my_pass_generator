@@ -82,4 +82,13 @@ class PasswordsDatabaseHelper(context: Context): SQLiteOpenHelper(context, DATAB
         db.close()
         return Passwords(id, title, content)
     }
+
+    fun deletePass(passId: Int){
+        val db = writableDatabase
+        val whereClause = "$COLUMN_ID = ?"
+        val whereArgs = arrayOf(passId.toString())
+        db.delete(TABLE_NAME, whereClause, whereArgs)
+        db.close()
+    }
+
 }
