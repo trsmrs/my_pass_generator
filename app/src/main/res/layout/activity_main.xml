@@ -13,7 +13,7 @@
         android:layout_height="29dp"
         android:layout_centerHorizontal="true"
         android:text="Gerador de Senha Forte"
-        android:textColor="@color/white"
+        android:textColor="@color/orange"
         android:textSize="18sp"
         android:textAlignment="center"
         android:layout_marginTop="30dp"
@@ -24,12 +24,13 @@
         android:layout_width="350dp"
         android:layout_height="46dp"
         android:layout_marginTop="160dp"
-        android:background="@drawable/rectangle"
+        android:background="@drawable/orange_border"
+        android:backgroundTint="@color/gray"
         android:ems="10"
         android:inputType="text"
         android:text=""
         android:layout_centerHorizontal="true"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         />
 
     <Button
@@ -50,7 +51,7 @@
         android:layout_height="25dp"
         android:orientation="vertical"
         android:text="Digite o comprimento da senha"
-        android:textColor="@color/white"
+        android:textColor="@color/orange"
         android:textSize="18sp"
         android:layout_below="@+id/btn_copy"
         android:layout_marginTop="30dp"
@@ -69,14 +70,14 @@
         android:layout_below="@+id/textView"
         android:layout_centerInParent="true"
         android:layout_marginTop="20dp"
-        android:textColor="@color/black"/>
+        android:textColor="@color/white"/>
 
     <CheckBox
         android:id="@+id/chk_num"
         android:layout_width="101dp"
         android:layout_height="53dp"
         android:text="Números"
-        android:textColor="@color/white"
+        android:textColor="@color/orange"
         android:layout_below="@+id/text_lenght"
         android:layout_centerInParent="true"
         android:layout_marginTop="20dp"
@@ -88,7 +89,7 @@
         android:layout_width="101dp"
         android:layout_height="53dp"
         android:text="Símbolos"
-        android:textColor="@color/white"
+        android:textColor="@color/orange"
         android:layout_below="@+id/text_lenght"
         android:layout_centerInParent="true"
         android:layout_marginTop="20dp"
@@ -115,7 +116,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:text="Senhas"
-        app:tint ="@color/white"
+        android:textColor="@color/white"
         android:backgroundTint="@color/orange"
         />
 

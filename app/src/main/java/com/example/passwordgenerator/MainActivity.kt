@@ -1,10 +1,12 @@
 package com.example.passwordgenerator
 
+import android.app.AlertDialog
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
@@ -15,6 +17,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.passwordgenerator.databinding.ActivityMainBinding
 import com.example.passwordgenerator.databinding.ActivityVaultBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -49,10 +52,34 @@ class MainActivity : AppCompatActivity() {
         val chk_symbols: CheckBox = findViewById(R.id.chk_symbols)
 
 
-        binding.addBtn.setOnClickListener {
-            val intent = Intent(this, VaultActivity::class.java)
-            startActivity(intent)
 
+            fun showPasswordDialog(context: Context, senhaArmazenada: String, onPasswordCorrect: () -> Unit) {
+                val dialogView = LayoutInflater.from(context).inflate(R.layout.layout_password, null)
+                val passwordEditText = dialogView.findViewById<EditText>(R.id.passwordEditText)
+
+                val builder = MaterialAlertDialogBuilder(context)
+                    .setTitle("Digite a senha")
+                    .setMessage("Por favor, insira a senha para continuar.")
+                    .setView(dialogView)
+                    .setPositiveButton("Confirmar") { _, _ ->
+                        val senhaDigitada = passwordEditText.text.toString()
+
+                        if (senhaDigitada == senhaArmazenada) {
+                            onPasswordCorrect()
+                            val intent = Intent(context, VaultActivity::class.java)
+                            context.startActivity(intent)
+                        } else {
+                            Toast.makeText(context, "Senha incorreta.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    .setNegativeButton("Cancelar", null)
+
+                builder.show()
+            }
+
+        binding.addBtn.setOnClickListener {
+            showPasswordDialog(this, "209065") {
+            }
         }
 
         fun generatePass() {
