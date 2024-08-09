@@ -2,4 +2,5 @@
     <string name="app_name">PasswordGenerator</string>
     <string name="adicione_a_senha">Adicione a Senha</string>
     <string name="entre_com_a_senha">Entre com a senha</string>
+    <string name="edite_a_senha">Edite a senha</string>
 </resources>

@@ -55,4 +55,31 @@ class PasswordsDatabaseHelper(context: Context): SQLiteOpenHelper(context, DATAB
         db.close()
         return passwordsList
     }
+
+    fun updatePass(pass: Passwords){
+        val db = writableDatabase
+        val values = ContentValues().apply {
+            put(COLUMN_TITLE, pass.title)
+            put(COLUMN_CONTENT, pass.content)
+        }
+        val whereClause = "$COLUMN_ID = ?"
+        val whereArgs = arrayOf(pass.id.toString())
+        db.update(TABLE_NAME, values, whereClause, whereArgs)
+        db.close()
+    }
+
+    fun getPassByID(passId: Int): Passwords{
+        val db = readableDatabase
+        val query = "SELECT * FROM $TABLE_NAME WHERE $COLUMN_ID = $passId"
+        val cursor = db.rawQuery(query, null)
+        cursor.moveToFirst()
+
+        val id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID))
+        val title = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE))
+        val content = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CONTENT))
+
+        cursor.close()
+        db.close()
+        return Passwords(id, title, content)
+    }
 }

@@ -8,30 +8,30 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:layout_marginTop="4dp"
-    tools:context=".AddPasswordActivity">
+    tools:context=".UpdateActivity">
     <TextView
-        android:id="@+id/addNoteHeading"
+        android:id="@+id/editNoteHeading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginTop="16dp"
-        android:text="@string/adicione_a_senha"
+        android:text="@string/edite_a_senha"
         android:textColor="@color/orange"
         android:fontFamily="@font/poppins"
         android:textSize="24sp" />
     <ImageView
-        android:id="@+id/saveBtn"
+        android:id="@+id/editSaveBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/baseline_done_24"
         android:backgroundTint="@color/black"
         android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/addNoteHeading" />
+        android:layout_alignTop="@+id/editNoteHeading" />
     <EditText
-        android:id="@+id/titlePassword"
+        android:id="@+id/editTitlePassword"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_below="@+id/addNoteHeading"
+        android:layout_below="@+id/editNoteHeading"
         android:padding="12dp"
         android:textSize="20sp"
         android:layout_marginTop="16dp"
@@ -40,7 +40,7 @@
         android:maxLines="1"
         android:fontFamily="@font/poppins" />
     <EditText
-        android:id="@+id/contentPassword"
+        android:id="@+id/editContentPassword"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:hint="@string/entre_com_a_senha"
@@ -48,7 +48,7 @@
         android:padding="12dp"
         android:textSize="18sp"
         android:background="@drawable/orange_border"
-        android:layout_below="@id/titlePassword"
+        android:layout_below="@id/editTitlePassword"
         android:layout_marginTop="12dp"
         android:fontFamily="@font/poppins" />
 </RelativeLayout>
