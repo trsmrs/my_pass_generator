@@ -37,6 +37,8 @@ class PasswordsDatabaseHelper(context: Context): SQLiteOpenHelper(context, DATAB
         db.close()
     }
 
+
+
     fun getAllPass(): List<Passwords>{
         val passwordsList = mutableListOf<Passwords>()
         val db = readableDatabase
@@ -77,6 +79,7 @@ class PasswordsDatabaseHelper(context: Context): SQLiteOpenHelper(context, DATAB
         val id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID))
         val title = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE))
         val content = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CONTENT))
+
 
         cursor.close()
         db.close()

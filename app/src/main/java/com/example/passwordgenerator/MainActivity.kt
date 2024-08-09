@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     private var buttonActivated = false
     private var buttonSymbols = false
     private var selectedChars = ""
-
+   
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,18 +53,42 @@ class MainActivity : AppCompatActivity() {
 
 
 
-            fun showPasswordDialog(context: Context, senhaArmazenada: String, onPasswordCorrect: () -> Unit) {
-                val dialogView = LayoutInflater.from(context).inflate(R.layout.layout_password, null)
-                val passwordEditText = dialogView.findViewById<EditText>(R.id.passwordEditText)
+         fun saveMasterPassword(password: String) {
+            val sharedPreferences = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.putString("master_password", password)
+            editor.apply()
+        }
 
-                val builder = MaterialAlertDialogBuilder(context)
-                    .setTitle("Digite a senha")
-                    .setMessage("Por favor, insira a senha para continuar.")
-                    .setView(dialogView)
-                    .setPositiveButton("Confirmar") { _, _ ->
-                        val senhaDigitada = passwordEditText.text.toString()
+         fun getMasterPassword(): String? {
+            val sharedPreferences = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+            return sharedPreferences.getString("master_password", null)
+        }
 
-                        if (senhaDigitada == senhaArmazenada) {
+
+        fun showPasswordDialog(context: Context, onPasswordCorrect: () -> Unit) {
+            val dialogView = LayoutInflater.from(context).inflate(R.layout.layout_password, null)
+            val passwordEditText = dialogView.findViewById<EditText>(R.id.passwordEditText)
+
+            val storedPassword = getMasterPassword()
+            val title = if (storedPassword == null) "Crie uma senha mestre" else "Digite a senha mestre"
+            val message = if (storedPassword == null) "Por favor, crie uma senha mestre para o aplicativo." else "Por favor, insira a senha mestre para continuar."
+
+            val builder = MaterialAlertDialogBuilder(context)
+                .setTitle(title)
+                .setMessage(message)
+                .setView(dialogView)
+                .setPositiveButton("Confirmar") { _, _ ->
+                    val enteredPassword = passwordEditText.text.toString()
+
+                    if (storedPassword == null) {
+                        // Criando uma nova senha mestre
+                        saveMasterPassword(enteredPassword)
+                        Toast.makeText(context, "Senha mestre criada com sucesso.", Toast.LENGTH_SHORT).show()
+                        onPasswordCorrect()
+                    } else {
+                        // Verificando a senha existente
+                        if (enteredPassword == storedPassword) {
                             onPasswordCorrect()
                             val intent = Intent(context, VaultActivity::class.java)
                             context.startActivity(intent)
@@ -72,13 +96,15 @@ class MainActivity : AppCompatActivity() {
                             Toast.makeText(context, "Senha incorreta.", Toast.LENGTH_SHORT).show()
                         }
                     }
-                    .setNegativeButton("Cancelar", null)
+                }
+                .setNegativeButton("Cancelar", null)
 
-                builder.show()
-            }
+            builder.show()
+        }
 
         binding.addBtn.setOnClickListener {
-            showPasswordDialog(this, "209065") {
+            showPasswordDialog(this) {
+                // Ação a ser executada quando a senha estiver correta
             }
         }
 
@@ -120,5 +146,9 @@ class MainActivity : AppCompatActivity() {
             clipBoard.setPrimaryClip(clip)
             Toast.makeText(this, "Password Copiado!", Toast.LENGTH_SHORT).show()
         }
+
+
+
+
       }
     }
