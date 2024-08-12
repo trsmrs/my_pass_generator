@@ -6,6 +6,5 @@
          <item name="colorPrimaryVariant">@color/orange</item>
          <item name="android:statusBarColor">@color/orange</item>
     </style>
-
     <style name="Theme.PasswordGenerator" parent="Base.Theme.PasswordGenerator" />
 </resources>

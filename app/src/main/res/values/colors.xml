@@ -6,4 +6,5 @@
     <color name="bg">#010C02</color>
     <color name="btns">#FD7C53</color>
     <color name="orange">#ed5f1e</color>
+    <color name="orange_splash">#C6EC6F35</color>
 </resources>

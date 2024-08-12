@@ -1,7 +1,9 @@
 package com.example.passwordgenerator
 
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
@@ -13,14 +15,17 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.passwordgenerator.databinding.ActivityVaultBinding
 import java.io.File
+import java.io.FileOutputStream
 
 
 class VaultActivity : AppCompatActivity() {
-
+    private val REQUEST_CODE_PICK_FILE = 1
     private lateinit var binding: ActivityVaultBinding
     private lateinit var db: PasswordsDatabaseHelper
     private lateinit var passwordsAdapter: PasswordsAdapter
     private lateinit var databaseBackup: DatabaseBackup
+    private val databaseRestore = RestoreDatabaseBackup(this)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,11 +53,23 @@ class VaultActivity : AppCompatActivity() {
         binding.backupBtn.setOnClickListener {
             performBackup()
         }
-    }
 
-    override fun onResume() {
-        super.onResume()
-        passwordsAdapter.refreshData(db.getAllPass())
+        binding.restoreBtn.setOnClickListener {
+            openFilePicker()
+
+        }
+
+        // Configurar um botão para abrir o File Picker
+        binding.restoreBtn.setOnLongClickListener {
+            restoreBackup()
+            true
+        }
+    }
+    private fun openFilePicker() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+            type = "*/*" // Ou defina um tipo específico se necessário
+        }
+        startActivityForResult(intent, REQUEST_CODE_PICK_FILE)
     }
 
     private fun performBackup() {
@@ -62,7 +79,6 @@ class VaultActivity : AppCompatActivity() {
                 return
             }
         }
-
         // Feche todas as conexões com o banco de dados
         db.close()
 
@@ -74,10 +90,10 @@ class VaultActivity : AppCompatActivity() {
         } else {
             Toast.makeText(this, "Falha ao realizar o backup", Toast.LENGTH_SHORT).show()
         }
-
         // Reabra o banco de dados
         db = PasswordsDatabaseHelper(this)
     }
+
 
     private fun showShareBackupDialog(backupFile: File) {
         AlertDialog.Builder(this)
@@ -96,5 +112,57 @@ class VaultActivity : AppCompatActivity() {
         } else {
             Toast.makeText(this, "Permissão negada. Não é possível fazer backup.", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun refreshData() {
+        // Feche e reabra o banco de dados para garantir que os dados estejam atualizados
+        db.close()
+        db = PasswordsDatabaseHelper(this)
+        passwordsAdapter.refreshData(db.getAllPass())
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_PICK_FILE && resultCode == Activity.RESULT_OK) {
+            data?.data?.let { uri ->
+                val file = getFileFromUri(uri)
+                file?.let {
+                    // Restaurar o banco de dados
+                    if (databaseRestore.restoreDatabase(it)) {
+                        refreshData()
+                        Toast.makeText(this, "Restauração bem-sucedida", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this, "Falha na restauração", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getFileFromUri(uri: Uri): File? {
+        val inputStream = this.contentResolver.openInputStream(uri)
+        val tempFile = File(this.cacheDir, "temp_backup.db")
+        inputStream?.use { input ->
+            FileOutputStream(tempFile).use { output ->
+                input.copyTo(output)
+            }
+        }
+        return if (tempFile.exists()) tempFile else null
+    }
+
+    private fun restoreBackup() {
+        val backupFile = File(getExternalFilesDir(null), "pwdgenbackup/vaultpass.db")
+        if (databaseRestore.restoreDatabase(backupFile)) {
+            Toast.makeText(this, "Restauração bem-sucedida", Toast.LENGTH_SHORT).show()
+            refreshData()
+        } else {
+            Toast.makeText(this, "Falha na restauração", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        passwordsAdapter.refreshData(db.getAllPass())
     }
 }
