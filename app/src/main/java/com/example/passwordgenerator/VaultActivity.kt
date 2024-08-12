@@ -17,7 +17,6 @@ import com.example.passwordgenerator.databinding.ActivityVaultBinding
 import java.io.File
 import java.io.FileOutputStream
 
-
 class VaultActivity : AppCompatActivity() {
     private val REQUEST_CODE_PICK_FILE = 1
     private lateinit var binding: ActivityVaultBinding
@@ -25,7 +24,6 @@ class VaultActivity : AppCompatActivity() {
     private lateinit var passwordsAdapter: PasswordsAdapter
     private lateinit var databaseBackup: DatabaseBackup
     private val databaseRestore = RestoreDatabaseBackup(this)
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,18 +54,17 @@ class VaultActivity : AppCompatActivity() {
 
         binding.restoreBtn.setOnClickListener {
             openFilePicker()
-
         }
 
-        // Configurar um botão para abrir o File Picker
         binding.restoreBtn.setOnLongClickListener {
             restoreBackup()
             true
         }
     }
+
     private fun openFilePicker() {
         val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
-            type = "*/*" // Ou defina um tipo específico se necessário
+            type = "*/*"
         }
         startActivityForResult(intent, REQUEST_CODE_PICK_FILE)
     }
@@ -79,21 +76,17 @@ class VaultActivity : AppCompatActivity() {
                 return
             }
         }
-        // Feche todas as conexões com o banco de dados
         db.close()
 
         val backupFile = databaseBackup.backupDatabase()
         if (backupFile != null) {
             Toast.makeText(this, "Backup realizado com sucesso", Toast.LENGTH_SHORT).show()
-            // Perguntar ao usuário se deseja compartilhar o backup
             showShareBackupDialog(backupFile)
         } else {
             Toast.makeText(this, "Falha ao realizar o backup", Toast.LENGTH_SHORT).show()
         }
-        // Reabra o banco de dados
         db = PasswordsDatabaseHelper(this)
     }
-
 
     private fun showShareBackupDialog(backupFile: File) {
         AlertDialog.Builder(this)
@@ -105,6 +98,7 @@ class VaultActivity : AppCompatActivity() {
             .setNegativeButton("Não", null)
             .show()
     }
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 1 && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -115,12 +109,10 @@ class VaultActivity : AppCompatActivity() {
     }
 
     private fun refreshData() {
-        // Feche e reabra o banco de dados para garantir que os dados estejam atualizados
         db.close()
         db = PasswordsDatabaseHelper(this)
         passwordsAdapter.refreshData(db.getAllPass())
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -128,7 +120,6 @@ class VaultActivity : AppCompatActivity() {
             data?.data?.let { uri ->
                 val file = getFileFromUri(uri)
                 file?.let {
-                    // Restaurar o banco de dados
                     if (databaseRestore.restoreDatabase(it)) {
                         refreshData()
                         Toast.makeText(this, "Restauração bem-sucedida", Toast.LENGTH_SHORT).show()
