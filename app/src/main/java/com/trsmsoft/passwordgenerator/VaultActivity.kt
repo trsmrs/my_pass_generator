@@ -1,4 +1,4 @@
-package com.example.passwordgenerator
+package com.trsmsoft.passwordgenerator
 
 import android.app.Activity
 import android.content.Intent
@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.passwordgenerator.databinding.ActivityVaultBinding
+import com.trsmsoft.passwordgenerator.databinding.ActivityVaultBinding
 import java.io.File
 import java.io.FileOutputStream
 
@@ -64,7 +64,8 @@ class VaultActivity : AppCompatActivity() {
 
     private fun openFilePicker() {
         val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
-            type = "*/*"
+            type = "application/octet-stream"
+            addCategory(Intent.CATEGORY_OPENABLE)
         }
         startActivityForResult(intent, REQUEST_CODE_PICK_FILE)
     }
@@ -120,11 +121,15 @@ class VaultActivity : AppCompatActivity() {
             data?.data?.let { uri ->
                 val file = getFileFromUri(uri)
                 file?.let {
-                    if (databaseRestore.restoreDatabase(it)) {
-                        refreshData()
-                        Toast.makeText(this, "Restauração bem-sucedida", Toast.LENGTH_SHORT).show()
+                    if (it.extension == "db") { // Verifica a extensão do arquivo
+                        if (databaseRestore.restoreDatabase(it)) {
+                            refreshData()
+                            Toast.makeText(this, "Restauração bem-sucedida", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(this, "Falha na restauração", Toast.LENGTH_SHORT).show()
+                        }
                     } else {
-                        Toast.makeText(this, "Falha na restauração", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Por favor, selecione um arquivo .db", Toast.LENGTH_SHORT).show()
                     }
                 }
             }

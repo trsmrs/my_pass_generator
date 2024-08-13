@@ -1,4 +1,4 @@
-package com.example.passwordgenerator
+package com.trsmsoft.passwordgenerator
 
 import android.content.Context
 import android.util.Log
@@ -13,12 +13,19 @@ class RestoreDatabaseBackup(private val context: Context) {
     private val TAG = "DatabaseRestore"
 
     fun restoreDatabase(backupFile: File): Boolean {
+        // Verifica se o arquivo de backup tem a extensão correta
+        if (!isValidDatabaseFile(backupFile)) {
+            Log.e(TAG, "Arquivo selecionado não é um banco de dados válido (.db)")
+            return false
+        }
+
         val currentDB = context.getDatabasePath(databaseName)
 
         return try {
             // Fechar todas as conexões com o banco de dados atual
             context.deleteDatabase(databaseName)
 
+            // Restaurar o banco de dados a partir do backup
             FileInputStream(backupFile).use { input ->
                 FileOutputStream(currentDB).use { output ->
                     input.copyTo(output)
@@ -33,6 +40,11 @@ class RestoreDatabaseBackup(private val context: Context) {
         }
     }
 
+    private fun isValidDatabaseFile(file: File): Boolean {
+        // Verifica se o arquivo tem a extensão ".db"
+        return file.extension == "db"
+    }
+
     fun getLatestBackup(): File? {
         val backupDir = File(context.getExternalFilesDir(null), "pwdgenbackup")
         if (!backupDir.exists() || !backupDir.isDirectory) {
@@ -40,8 +52,9 @@ class RestoreDatabaseBackup(private val context: Context) {
             return null
         }
 
+        // Filtra arquivos que terminam com ".db"
         return backupDir.listFiles { file ->
-            file.name.startsWith(databaseName)
+            file.extension == "db"
         }?.maxByOrNull { it.lastModified() }
     }
 

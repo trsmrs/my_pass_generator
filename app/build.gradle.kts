@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.passwordgenerator"
+    namespace = "com.trsmsoft.passwordgenerator"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.passwordgenerator"
+        applicationId = "com.trsmsoft.passwordgenerator"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

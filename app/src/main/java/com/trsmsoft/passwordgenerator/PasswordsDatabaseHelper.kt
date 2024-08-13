@@ -1,4 +1,4 @@
-package com.example.passwordgenerator
+package com.trsmsoft.passwordgenerator
 
 import android.content.ContentValues
 import android.content.Context
@@ -19,7 +19,7 @@ class PasswordsDatabaseHelper(context: Context): SQLiteOpenHelper(context, DATAB
         private const val COLUMN_ID = "id"
         private const val COLUMN_TITLE = "title"
         private const val COLUMN_CONTENT = "content"
-        private const val SECRET_KEY = "trsmdev_2024"
+        private const val SECRET_KEY = "SUA SECRETKEY AQUI"
     }
 
     private val cipher: Cipher = Cipher.getInstance("AES")

@@ -1,4 +1,4 @@
-package com.example.passwordgenerator
+package com.trsmsoft.passwordgenerator
 
 import android.annotation.SuppressLint
 import android.content.ClipData

@@ -1,4 +1,4 @@
-package com.example.passwordgenerator
+package com.trsmsoft.passwordgenerator
 
 import android.os.Bundle
 import android.widget.Toast
@@ -6,8 +6,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.passwordgenerator.databinding.ActivityAddPasswordBinding
-import com.example.passwordgenerator.databinding.ActivityVaultBinding
+import com.trsmsoft.passwordgenerator.databinding.ActivityAddPasswordBinding
+import com.trsmsoft.passwordgenerator.databinding.ActivityVaultBinding
 
 class AddPasswordActivity : AppCompatActivity() {
 

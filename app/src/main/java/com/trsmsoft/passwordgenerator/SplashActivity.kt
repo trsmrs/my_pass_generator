@@ -1,4 +1,4 @@
-package com.example.passwordgenerator
+package com.trsmsoft.passwordgenerator
 
 import android.content.Intent
 import android.os.Bundle
@@ -36,6 +36,6 @@ class SplashActivity : AppCompatActivity() {
             val intent = Intent(this@SplashActivity, MainActivity::class.java)
             startActivity(intent)
             finish()
-        }, 3000) // Delay de 3 segundos
+        }, 1800) // Delay de 1s e 800ms
     }
 }
